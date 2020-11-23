@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c333ccfdd0cbdbc4ca30cef2dd6e6b9b, type: 3}
   m_Name: PositionReset Udon C# Program Asset
   m_EditorClassIdentifier: 
-  serializedUdonProgramAsset: {fileID: 11400000, guid: fd1b918cbf1442a4997eec19a03e537b,
+  serializedUdonProgramAsset: {fileID: 11400000, guid: 955e6ecbbef960b4d9d4af9e9133dba7,
     type: 2}
   udonAssembly: 
   assemblyError: 
