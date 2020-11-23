@@ -8,6 +8,12 @@ public class FlyingOnUsingDown : UdonSharpBehaviour {
     private readonly int FLYING_DISTANCE = 50;
 
     /// <summary>
+    /// Increase this to speed up flying.
+    /// </summary>
+    [SerializeField]
+    private float flappingStrength = 3.0f;
+
+    /// <summary>
     /// The owner of Flyer by pickupping.
     ///
     /// Being null means this object is not picked up now.
@@ -61,8 +67,11 @@ public class FlyingOnUsingDown : UdonSharpBehaviour {
     /// - this.owner != null
     /// </summary>
     private void AffectOnceToFly() {
-        var flying = new Vector3(0, this.transform.position.y - 0.1f, 0);
-        var nextPosition = Vector3.Lerp(this.owner.GetVelocity(), flying, 4 * Time.fixedDeltaTime);
-        this.owner.SetVelocity(nextPosition);
+        var movingUp = Vector3.Lerp(
+                this.owner.GetVelocity(),
+                Vector3.up * this.flappingStrength,
+                4 * Time.fixedDeltaTime
+                );
+        this.owner.SetVelocity(movingUp);
     }
 }
