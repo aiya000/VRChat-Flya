@@ -5,7 +5,7 @@ using VRC.Udon.Common.Interfaces;
 using VRC.Udon;
 
 public class Flyer : UdonSharpBehaviour {
-    private readonly int WAITING_COUNT = 50;
+    private readonly int FLYING_DISTANCE = 50;
 
     /// <summary>
     /// The owner of Flyer by pickupping.
@@ -15,19 +15,16 @@ public class Flyer : UdonSharpBehaviour {
     private VRCPlayerApi owner;
 
     /// <summary>
-    /// A limitation for EmulateFlying() executions.
+    /// A time count to fix the owner's velocity.
     /// </summary>
-    private int countToSkip = 0;
-
-    private Vector3 latestOwnerPos = Vector3.zero;
+    private int countToFly;
 
     /// <summary>
     /// Initailizes this instance to fly.
     /// </summary>
     public override void OnPickup() {
         this.owner = Networking.LocalPlayer;
-        this.countToSkip = WAITING_COUNT;
-        this.latestOwnerPos = this.transform.position;
+        this.countToFly = 0;
     }
 
     /// <summary>
@@ -35,54 +32,37 @@ public class Flyer : UdonSharpBehaviour {
     /// </summary>
     public override void OnDrop() {
         this.owner = null;
-        this.countToSkip = WAITING_COUNT;
-        this.latestOwnerPos = Vector3.zero;
-    }
-
-    // public override void OnPickupUseDown()
-    // {
-    // }
-
-    public void FixedUpdate() {
-        if (this.owner == null) {
-            return;
-        }
-
-        this.EmulateFlying();
+        this.countToFly = 0;
     }
 
     /// <summary>
-    /// Emulates flying sky.
+    /// Start to fly.
+    /// </summary>
+    public override void OnPickupUseDown() {
+        this.countToFly = FLYING_DISTANCE;
+    }
+
+    /// <summary>
+    /// Emulates flying the sky :3
+    /// </summary>
+    public void FixedUpdate() {
+        if (this.owner == null || this.countToFly == 0) {
+            return;
+        }
+
+        this.AffectOnceToFly();
+        this.countToFly--;
+    }
+
+    /// <summary>
+    /// Fix the owner's position to upper.
     ///
     /// Requirement:
     /// - this.owner != null
     /// </summary>
-    private void EmulateFlying() {
-        if (this.owner.IsPlayerGrounded()) {
-            return;
-        }
-
-        if (!this.IsReadyToFixY()) {
-            this.owner.SetVelocity(this.latestOwnerPos);  // Keep the position
-            this.countToSkip--;
-            return;
-        }
-
-        // var nextY = Mathf.Lerp(_fallStartedY, transform.position.y, 6 * Time.fixedDeltaTime);
-        var nextPosition = new Vector3(0, this.latestOwnerPos.y - 0.1f, 0);
+    private void AffectOnceToFly() {
+        var flying = new Vector3(0, this.transform.position.y - 0.1f, 0);
+        var nextPosition = Vector3.Lerp(this.owner.GetVelocity(), flying, 4 * Time.fixedDeltaTime);
         this.owner.SetVelocity(nextPosition);
-
-        // Wait to fly again.
-        this.latestOwnerPos = this.transform.position;
-        this.countToSkip = WAITING_COUNT;
-    }
-
-    private bool IsReadyToFixY() {
-        if (this.countToSkip < 0) {
-            Debug.Log($"Flyer: IsReadyToFixY(): Something wrong. this.countToSkip is: {this.countToSkip}");
-            return false;
-        }
-
-        return (this.countToSkip != 0);
     }
 }
