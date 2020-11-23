@@ -4,7 +4,7 @@ using VRC.SDKBase;
 using VRC.Udon.Common.Interfaces;
 using VRC.Udon;
 
-public class Flyer : UdonSharpBehaviour {
+public class FlyingOnUsingDown : UdonSharpBehaviour {
     private readonly int FLYING_DISTANCE = 50;
 
     /// <summary>
