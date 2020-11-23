@@ -197,7 +197,7 @@ GameObject:
   - component: {fileID: 382745529}
   - component: {fileID: 382745528}
   m_Layer: 13
-  m_Name: Flyer
+  m_Name: FlyerWithUsingDown
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -247,7 +247,7 @@ MonoBehaviour:
   orientation: 0
   AutoHold: 1
   InteractionText: 
-  UseText: Use
+  UseText: Equip this & Use down to flap once.
   useEventBroadcastType: 0
   UseDownEventName: 
   UseUpEventName: 
