@@ -11,7 +11,7 @@ public class FlyingOnUsingDown : UdonSharpBehaviour {
     /// Increase this to speed up flying.
     /// </summary>
     [SerializeField]
-    private float flappingStrength = 3.0f;
+    private float flappingStrength = 7.0f;
 
     /// <summary>
     /// The owner of Flyer by pickupping.

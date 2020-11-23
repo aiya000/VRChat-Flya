@@ -8,7 +8,7 @@ public class FlyingByToggling : UdonSharpBehaviour {
     /// Increase this to speed up flying.
     /// </summary>
     [SerializeField]
-    private float flappingStrength = 2.0f;
+    private float flappingStrength = 5.0f;
 
     /// <summary>
     /// The owner of Flyer by pickupping.
